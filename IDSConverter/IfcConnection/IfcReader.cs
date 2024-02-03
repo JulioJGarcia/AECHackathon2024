@@ -1,9 +1,13 @@
 ﻿using IDSConverter.Items;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.Isam.Esent.Interop.EnumeratedColumn;
+using System.Xml.Linq;
 using Xbim.Ifc;
 using Xbim.Ifc4.Interfaces;
 
@@ -20,7 +24,7 @@ namespace IDSConverter.IfcConnection
             File = file;
         }
 
-        private IDS ConvertToXmlFormat(List<Dictionary<string, string>> ifcData)
+        private IDS ConvertToXmlFormat(List<Dictionary<string, string>> ifcSpaceData)
         {
             IDS specs = new IDS()
             {
@@ -31,69 +35,86 @@ namespace IDSConverter.IfcConnection
                 Specifications = new List<Specification>()
             };
 
-            foreach (Dictionary<string, string> row in ifcData)
+            foreach (Dictionary<string, string> attribute in ifcSpaceData)
             {
-                if (ifcData.IndexOf(row) == 0)
-                {
-                    continue;
-                }
+                string areaCode = attribute["Name"],
+                    areaName = attribute["Number"];
 
-                for (int i = 7; i < row.Keys.Count(); i++)
+                Specification spec = new Specification()
                 {
-                    List<string> keys = row.Keys.ToList();
+                    Name = $"{areaCode} {areaName}",
+                    IfcVersion = "IFC4",
+                    Description = "Areas ...",
+                    Instructions = "...",
+                    MinOccurs = "0",
+                    MaxOccurs = "unbounded",
+                    Applicability = new List<Entity>(),
+                    Requirements = new List<Attribute>()
+
+                };
+
+                Entity entityType = new Entity()
+                {
+                    Name = new Name()
+                    {
+                        SimpleValue = new SimpleValue()
+                        {
+                            Value = "IFCSPACE"
+                        }
+                    }
+                };
+
+                spec.Applicability.Add(entityType);
+
+                string keyAttr = ifcSpaceData.First()["Name"];
+                string keyValueAttr = attribute["Number"];
+
+                Attribute attrApplicability = new Attribute()
+                {
+                    Name = new Name()
+                    {
+                        SimpleValue = new SimpleValue() { Value = keyAttr }
+                    },
+
+                    Value = new Value()
+                    {
+                        SimpleValue = new SimpleValue() { Value = keyValueAttr }
+                    }
+                };
+
+                //spec.Applicability.Add(attrApplicability);
+
+                for (int i = 7; i < attribute.Keys.Count(); i++)
+                {
+                    List<string> keys = attribute.Keys.ToList();
                     string key = keys[i];
 
-                    string name = ifcData.First()[key], value = row[key];
+                    string name = ifcSpaceData.First()[key], value = attribute[key];
 
-                    string areaName = row[Level3DesignationColumn];
-
-                    Specification spec = new Specification()
+                    Attribute attr = new Attribute()
                     {
-                        Name = areaName,
-                        IfcVersion = "IFC4",
-                        Description = "Areas ...",
-                        Instructions = "...",
-                        MinOccurs = "0",
-                        MaxOccurs = "unbounded",
-                        Applicability = new Applicability()
+                        Instructions = $"For '{areaName}' areas the value of field '{name}' must match '{value}'",
+                        Name = new Name()
                         {
-                            Entity = new Entity()
-                            {
-                                Name = new Name()
-                                {
-                                    SimpleValue = new SimpleValue()
-                                    {
-                                        Value = "IFCSPACE"
-                                    }
-                                }
-                            }
+                            SimpleValue = new SimpleValue() { Value = name }
                         },
-                        Requirements = new Requirement()
-                        {
-                            Attribute = new Attribute()
-                            {
-                                Instructions = $"For '{areaName}' areas the value of field '{name}' must match '{value}'",
-                                Name = new Name()
-                                {
-                                    SimpleValue = new SimpleValue() { Value = name }
-                                },
 
-                                Value = new Value()
-                                {
-                                    SimpleValue = new SimpleValue() { Value = value }
-                                }
-                            }
+                        Value = new Value()
+                        {
+                            SimpleValue = new SimpleValue() { Value = value }
                         }
                     };
 
-                    specs.Specifications.Add(spec);
+                    spec.Requirements.Add(attr);
                 };
+
+                specs.Specifications.Add(spec);
             }
 
             return specs;
         }
 
-        private Dictionary<string, string> GetIfcSpaces(IIfcProject project)
+        private List<Dictionary<string, string>> GetIfcSpaces(IIfcProject project)
         {
             var spaces = project.Model.Instances.OfType<IIfcSpace>().ToList();
             Dictionary<string, string> spaceDictionary = new Dictionary<string, string>();
@@ -101,7 +122,9 @@ namespace IDSConverter.IfcConnection
 
             foreach (var space in spaces)
             {
-                spaceDictionary.Add(space.LongName, space.Name);
+                spaceDictionary.Add("Name",space.LongName);
+                spaceDictionary.Add("Number", space.Name);
+
                 //get the properties of a default property set of the space and assign it to propertySet
                 var defaultPropertySet = space.IsDefinedBy.OfType<IIfcRelDefinesByProperties>().FirstOrDefault();
                 if (defaultPropertySet != null)
@@ -111,7 +134,7 @@ namespace IDSConverter.IfcConnection
                     {
                         foreach (var property in properties.HasProperties)
                         {
-                            propertySet.Add(property.Name, property.NominalValue);
+                            spaceDictionary.Add(property.Name, property.NominalValue);
                         }
                     }
                 }
@@ -125,6 +148,9 @@ namespace IDSConverter.IfcConnection
             Model = IfcStore.Open(File);
             var project = Model.Instances.FirstOrDefault<IIfcProject>();
             GetIfcSpaces(project);
+
+            var ifcSpaceData = ReadData();
+            IDS ids = ConvertToXmlFormat(ifcSpaceData);
         }
     }
 }
