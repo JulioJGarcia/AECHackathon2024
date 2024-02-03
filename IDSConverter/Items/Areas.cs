@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IDSConverter.Categories
+namespace IDSConverter.Items
 {
     public class Areas
     {

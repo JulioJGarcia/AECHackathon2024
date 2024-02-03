@@ -31,7 +31,7 @@ namespace IDSConverter.ExcelConnections
         {
             File = file;
 
-            
+
 
 
         }
@@ -43,9 +43,9 @@ namespace IDSConverter.ExcelConnections
 
         private void ConvertToXmlFormat(List<Dictionary<string, string>> excelData)
         {
-            foreach(Dictionary<string, string> row in excelData)
+            foreach (Dictionary<string, string> row in excelData)
             {
-                if(excelData.IndexOf(row) == 0)
+                if (excelData.IndexOf(row) == 0)
                 {
                     continue;
                 }
@@ -69,7 +69,7 @@ namespace IDSConverter.ExcelConnections
 
                     if (sheets == null || sheets.Count() == 0)
                     {
-                       throw new Exception("\nUnable to read excel sheets, Check that the excel is closed");
+                        throw new Exception("\nUnable to read excel sheets, Check that the excel is closed");
                     }
 
                     break;
