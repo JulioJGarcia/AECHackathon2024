@@ -4,3 +4,8 @@
 *.vsidx
 *.vsidx
 IDSConverter/.vs/IDSConverter/v17/.suo
+/.vs
+/IDSConverter/.vs
+/.gitignore
+/.gitignore
+/.gitignore
