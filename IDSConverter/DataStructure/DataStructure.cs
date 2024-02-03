@@ -9,14 +9,14 @@ public class IDS
     [XmlAttribute("xmlns")]
     public string Xmlns { get; set; }
 
-    [XmlAttribute("xmlns:xs")]
-    public string XmlnsXs { get; set; }
+    //[XmlAttribute("xmlns:xs")]
+    //public string XmlnsXs { get; set; }
 
-    [XmlAttribute("xmlns:xsi")]
-    public string XmlnsXsi { get; set; }
+    //[XmlAttribute("xmlns:xsi")]
+    //public string XmlnsXsi { get; set; }
 
-    [XmlAttribute("xsi:schemaLocation")]
-    public string XsiSchemaLocation { get; set; }
+    //[XmlAttribute("xsi:schemaLocation")]
+    //public string XsiSchemaLocation { get; set; }
 
     public Info Info { get; set; }
 
@@ -62,7 +62,7 @@ public class Specification
 
     public Applicability Applicability { get; set; }
 
-    public Requirement Requirements { get; set; }
+    public List<Attribute> Requirements { get; set; }
 }
 
 public class Applicability
@@ -75,10 +75,10 @@ public class Entity
     public Name Name { get; set; }
 }
 
-public class Requirement
-{
-    public Attribute Attribute { get; set; }
-}
+//public class Requirement
+//{
+//    public Attribute Attribute { get; set; }
+//}
 
 public class Name
 {
