@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Xbim.Ifc;
+using Xbim.Ifc2x3.ProductExtension;
 using Xbim.Ifc4.Interfaces;
-using Xbim.Ifc4.ProductExtension;
 
 namespace IDSConverter
 {
-    class ifcReader
+    public class ifcReader
     {
-        class SpatialStructureExample
+        public class SpatialStructureExample
         {
             public static void Show()
             {
@@ -20,51 +23,19 @@ namespace IDSConverter
                 using (var model = IfcStore.Open(file))
                 {
                     var project = model.Instances.FirstOrDefault<IIfcProject>();
-                    PrintHierarchy(project, 0);
+                    PrintIfcSpaces(project);
                 }
             }
 
-            private static void PrintHierarchy(IIfcObjectDefinition o, int level)
+            private static void PrintIfcSpaces(IIfcProject project)
             {
-                Console.WriteLine(string.Format("{0}{1} [{2}]", GetIndent(level), o.Name, o.GetType().Name));
-
-                //only spatial elements can contain building elements
-                var spatialElement = o as IIfcSpatialStructureElement;
-                if (spatialElement != null)
+                var spaces = project.Model.Instances.OfType<IIfcSpace>().ToList();
+                foreach (var space in spaces)
                 {
-                    //using IfcRelContainedInSpatialElement to get contained elements
-                    var containedElements = spatialElement.ContainsElements.SelectMany(rel => rel.RelatedElements);
-                    foreach (var element in containedElements)
-                        Console.WriteLine(string.Format("{0}    ->{1} [{2}]", GetIndent(level), element.Name, element.GetType().Name));
+                    Console.WriteLine(string.Format("{0} -> {1} [{2}]", space.LongName, space.Name, space.GetType().Name));
                 }
-
-                //using IfcRelAggregares to get spatial decomposition of spatial structure elements
-                foreach (var item in o.IsDecomposedBy.SelectMany(r => r.RelatedObjects))
-                    PrintHierarchy(item, level + 1);
-            }
-
-            private static string GetIndent(int level)
-            {
-                var indent = "";
-                for (int i = 0; i < level; i++)
-                    indent += "  ";
-                return indent;
             }
         }
-        public void Main()
-        {
-            try
-            {
-                using (var model = IfcStore.Open("C:\\Users\\modelical\\Documents\\AECHackathon2024\\IDSConverter\\Samples\\Clinic_Architectural.ifc"))
-                {
-                    var spaceCount = model.Instances.OfType<IfcSpace>().Count();
-                    Console.WriteLine($"Number of IfcSpaces in the model: {spaceCount}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-        }
+
     }
 }

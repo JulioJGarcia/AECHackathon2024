@@ -10,6 +10,7 @@ namespace IDSConverter
     {
         static void Main(string[] args)
         {
+            ifcReader.SpatialStructureExample.Show();
         }
     }
 }

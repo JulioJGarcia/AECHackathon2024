@@ -4,6 +4,7 @@ using System.IO;
 using System.Xml.Serialization;
 
 [XmlRoot("ids", Namespace = "http://standards.buildingsmart.org/IDS", IsNullable = false)]
+
 public class IDS
 {
     [XmlAttribute("xmlns")]
