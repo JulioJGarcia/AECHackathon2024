@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xbim.Ifc;
 using Xbim.Ifc4.Interfaces;
+using Xbim.Ifc4.ProductExtension;
 
 namespace IDSConverter
 {
@@ -14,7 +15,7 @@ namespace IDSConverter
         {
             public static void Show()
             {
-                const string file = "./Samples/";
+                const string file = "C:\\Users\\modelical\\Documents\\AECHackathon2024\\IDSConverter\\Samples\\Clinic_Architectural.ifc";
 
                 using (var model = IfcStore.Open(file))
                 {
@@ -50,12 +51,11 @@ namespace IDSConverter
                 return indent;
             }
         }
-
-        static void Main()
+        public void Main()
         {
             try
             {
-                using (var model = IfcStore.Open("path/to/your/ifc/file.ifc"))
+                using (var model = IfcStore.Open("C:\\Users\\modelical\\Documents\\AECHackathon2024\\IDSConverter\\Samples\\Clinic_Architectural.ifc"))
                 {
                     var spaceCount = model.Instances.OfType<IfcSpace>().Count();
                     Console.WriteLine($"Number of IfcSpaces in the model: {spaceCount}");
