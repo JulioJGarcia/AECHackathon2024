@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.Isam.Esent.Interop.EnumeratedColumn;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace IDSConverter.ExcelConnections
 {
@@ -72,8 +73,8 @@ namespace IDSConverter.ExcelConnections
                     Instructions = "...",
                     MinOccurs = "0",
                     MaxOccurs = "unbounded",
-                    Applicability = new List<Entity>(),
-                    Requirements = new List<Attribute>()
+                    Applicability = new List<Facet>(),
+                    Requirements = new List<Facet>()
 
                 };
 
@@ -106,7 +107,7 @@ namespace IDSConverter.ExcelConnections
                     }
                 };
 
-                //spec.Applicability.Add(attrApplicability);
+                spec.Applicability.Add(attrApplicability);
 
                 for (int i = 7; i < row.Keys.Count(); i++)
                 {
@@ -130,6 +131,24 @@ namespace IDSConverter.ExcelConnections
                     };
 
                     spec.Requirements.Add(attr);
+
+                    //string idsFileName = @"C:\Temporal\IDS\Test_asdasd.ids";
+
+                    //XmlSerializer serializer = new XmlSerializer(typeof(Specification),
+                    //new Type[]
+                    //{
+                    //    typeof(Entity),
+                    //    typeof(Attribute)
+                    //});
+
+                    //XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+                    //namespaces.Add("xs", "http://www.w3.org/2001/XMLSchema");
+                    //namespaces.Add("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+
+                    //using (TextWriter writer = new StreamWriter(idsFileName))
+                    //{
+                    //    serializer.Serialize(writer, spec, namespaces);
+                    //}
                 };
 
                 specs.Specifications.Add(spec);

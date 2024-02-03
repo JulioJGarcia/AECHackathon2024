@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExcelDataReader.Log;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
@@ -20,6 +21,8 @@ public class IDS
 
     public Info Info { get; set; }
 
+    [XmlArray("Specifications")]
+    [XmlArrayItem("Specification")]
     public List<Specification> Specifications { get; set; }
 }
 
@@ -40,6 +43,7 @@ public class Info
 //    public List<Specification> Specification { get; set; }
 //}
 
+[XmlInclude(typeof(Facet))]
 public class Specification
 {
     [XmlAttribute("name")]
@@ -60,9 +64,14 @@ public class Specification
     [XmlAttribute("maxOccurs")]
     public string MaxOccurs { get; set; }
 
-    public List<Entity> Applicability { get; set; }
+    [XmlArray("Applicability")]
+    [XmlArrayItem("Facet")]
+    public List<Facet> Applicability { get; set; }
 
-    public List<Attribute> Requirements { get; set; }
+    [XmlArray("Requirements")]
+    [XmlArrayItem("Entity", Type = typeof(Entity))]
+    [XmlArrayItem("Attribute", Type = typeof(Attribute))]
+    public List<Facet> Requirements { get; set; }
 }
 
 //public class Applicability
