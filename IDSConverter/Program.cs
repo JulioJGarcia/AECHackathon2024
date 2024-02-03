@@ -26,13 +26,15 @@ namespace IDSConverter
 
             string extension = Regex.Match(file, @"\.[^.]*$").Value;
 
-            switch(extension)
+            IDS ids = null;
+
+            switch (extension)
             {
                 case ".ifc":
                     RunIfc(file);
                     break;
                 case ".xlsx":
-                    RunExcel(file);
+                    ids = RunExcel(file);
                     break;
             }
 
@@ -44,11 +46,11 @@ namespace IDSConverter
 
         }
 
-        private static void RunExcel(string excelFile)
+        private static IDS RunExcel(string excelFile)
         {
             ExcelReader excelReader = new ExcelReader(excelFile);
 
-            excelReader.Run();
+            IDS ids = excelReader.Run();
         }
 
         private static string ReadFile()
