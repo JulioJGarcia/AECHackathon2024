@@ -20,7 +20,7 @@ public class IDS
 
     public Info Info { get; set; }
 
-    public Specifications Specifications { get; set; }
+    public List<Specification> Specifications { get; set; }
 }
 
 public class Info
@@ -34,11 +34,11 @@ public class Info
     public string Purpose { get; set; }
 }
 
-public class Specifications
-{
-    [XmlElement("specification")]
-    public List<Specification> Specification { get; set; }
-}
+//public class Specifications
+//{
+//    [XmlElement("specification")]
+//    public List<Specification> Specification { get; set; }
+//}
 
 public class Specification
 {
@@ -55,14 +55,14 @@ public class Specification
     public string Instructions { get; set; }
 
     [XmlAttribute("minOccurs")]
-    public int MinOccurs { get; set; }
+    public string MinOccurs { get; set; }
 
     [XmlAttribute("maxOccurs")]
     public string MaxOccurs { get; set; }
 
     public Applicability Applicability { get; set; }
 
-    public List<Attribute> Requirements { get; set; }
+    public Requirement Requirements { get; set; }
 }
 
 public class Applicability
@@ -73,6 +73,11 @@ public class Applicability
 public class Entity
 {
     public Name Name { get; set; }
+}
+
+public class Requirement
+{
+    public Attribute Attribute { get; set; }
 }
 
 public class Name
