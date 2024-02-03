@@ -11,13 +11,45 @@ namespace IDSConverter.ExcelConnections
     {
         public string File { get; }
 
-        public List<Dictionary<string, string>> LoadedData { get; }
+        public List<Dictionary<string, string>> LoadedData { get; private set; }
+
+        public string AbbreviationColumn = "A";
+
+        public string Level1DesignationCodeColumn = "B";
+
+        public string Level1DesignationColumn = "C";
+
+        public string Level2DesignationCodeColumn = "D";
+
+        public string Level2DesignationColumn = "E";
+
+        public string Level3DesignationCodeColumn = "F";
+
+        public string Level3DesignationColumn = "G";
 
         public ExcelReader(string file)
         {
             File = file;
 
+            
+
+
+        }
+
+        public void Run()
+        {
             LoadedData = ReadData();
+        }
+
+        private void ConvertToXmlFormat(List<Dictionary<string, string>> excelData)
+        {
+            foreach(Dictionary<string, string> row in excelData)
+            {
+                if(excelData.IndexOf(row) == 0)
+                {
+                    continue;
+                }
+            }
         }
 
         private List<Dictionary<string, string>> ReadData()

@@ -48,6 +48,7 @@ namespace IDSConverter
         {
             ExcelReader excelReader = new ExcelReader(excelFile);
 
+            excelReader.Run();
         }
 
         private static string ReadFile()
