@@ -42,20 +42,21 @@ namespace IDSConverter
             Console.WriteLine("Enter the path of the output ids file:");
             string idsFileName = Console.ReadLine();
 
-            if(!Regex.Match(idsFileName,@"\.ids$").Success)
+            if (!Regex.Match(idsFileName, @"\.ids$").Success)
             {
                 idsFileName = $"{idsFileName}.ids";
             }
 
-            XmlSerializer serializer = new XmlSerializer(typeof(IDS));
-
-            XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-            namespaces.Add("xs", "http://www.w3.org/2001/XMLSchema");
-            namespaces.Add("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            XmlSerializer serializer = new XmlSerializer(typeof(IDS),
+                new Type[]
+                {
+                    typeof(Entity),
+                    typeof(Attribute)
+                });
 
             using (TextWriter writer = new StreamWriter(idsFileName))
             {
-                serializer.Serialize(writer, ids, namespaces);
+                serializer.Serialize(writer, ids);
             }
 
             Console.ReadLine();
