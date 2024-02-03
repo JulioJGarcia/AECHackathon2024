@@ -62,7 +62,7 @@ public class Specification
 
     public Applicability Applicability { get; set; }
 
-    public Requirements Requirements { get; set; }
+    public List<Attribute> Requirements { get; set; }
 }
 
 public class Applicability
@@ -83,11 +83,6 @@ public class Name
 public class SimpleValue
 {
     public string Value { get; set; }
-}
-
-public class Requirements
-{
-    public Attribute Attribute { get; set; }
 }
 
 public class Attribute
