@@ -10,6 +10,8 @@ using System.Xml.Serialization;
 using IDSConverter.ExcelConnections;
 using Microsoft.CSharp.RuntimeBinder;
 using IDSConverter.IfcConnection;
+using Xbim.Ifc;
+using Xbim.Ifc4.Interfaces;
 
 namespace IDSConverter
 {
@@ -64,7 +66,11 @@ namespace IDSConverter
 
         private static IDS RunIfc(string ifcFile)
         {
-            IfcReader ifcReader = new IfcConnection.IfcReader(ifcFile);
+            IfcReader ifcReader = new IfcReader(ifcFile);
+
+            IDS ids = ifcReader.Run();
+
+            return ids;
         }
 
         private static IDS RunExcel(string excelFile)

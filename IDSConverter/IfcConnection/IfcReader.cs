@@ -20,20 +20,20 @@ namespace IDSConverter.IfcConnection
             File = file;
         }
 
-        private IDS ConvertToXmlFormat(List<Dictionary<string, string>> excelData)
+        private IDS ConvertToXmlFormat(List<Dictionary<string, string>> ifcData)
         {
             IDS specs = new IDS()
             {
                 Xmlns = "http://standards.buildingsmart.org/IDS",
-                XmlnsXs = "http://www.w3.org/2001/XMLSchema",
-                XmlnsXsi = "http://www.w3.org/2001/XMLSchema-instance",
-                XsiSchemaLocation = "http://standards.buildingsmart.org/IDS ids.xsd",
+                //XmlnsXs = "http://www.w3.org/2001/XMLSchema",
+                //XmlnsXsi = "http://www.w3.org/2001/XMLSchema-instance",
+                //XsiSchemaLocation = "http://standards.buildingsmart.org/IDS ids.xsd",
                 Specifications = new List<Specification>()
             };
 
-            foreach (Dictionary<string, string> row in excelData)
+            foreach (Dictionary<string, string> row in ifcData)
             {
-                if (excelData.IndexOf(row) == 0)
+                if (ifcData.IndexOf(row) == 0)
                 {
                     continue;
                 }
@@ -43,7 +43,7 @@ namespace IDSConverter.IfcConnection
                     List<string> keys = row.Keys.ToList();
                     string key = keys[i];
 
-                    string name = excelData.First()[key], value = row[key];
+                    string name = ifcData.First()[key], value = row[key];
 
                     string areaName = row[Level3DesignationColumn];
 
@@ -93,34 +93,38 @@ namespace IDSConverter.IfcConnection
             return specs;
         }
 
-        public class SpacesSample
+        private Dictionary<string, string> GetIfcSpaces(IIfcProject project)
         {
-            public void Show()
-            {
-                const string file = "C:\\Users\\modelical\\Documents\\AECHackathon2024\\IDSConverter\\Samples\\Clinic_Architectural.ifc";
+            var spaces = project.Model.Instances.OfType<IIfcSpace>().ToList();
+            Dictionary<string, string> spaceDictionary = new Dictionary<string, string>();
+            Dictionary<string, string> propertySet = new Dictionary<string, string>();
 
-                using (var model = IfcStore.Open(file))
-                {
-                    var project = model.Instances.FirstOrDefault<IIfcProject>();
-                    GetIfcSpaces(project);
-                }
-            }
-
-            private Dictionary<string,string> GetIfcSpaces(IIfcProject project)
+            foreach (var space in spaces)
             {
-                var spaces = project.Model.Instances.OfType<IIfcSpace>().ToList();
-                Dictionary<string, string> spaceDictionary = new Dictionary<string, string>();
-                foreach (var space in spaces)
+                spaceDictionary.Add(space.LongName, space.Name);
+                //get the properties of a default property set of the space and assign it to propertySet
+                var defaultPropertySet = space.IsDefinedBy.OfType<IIfcRelDefinesByProperties>().FirstOrDefault();
+                if (defaultPropertySet != null)
                 {
-                    spaceDictionary.Add(space.LongName, space.Name);
+                    var properties = defaultPropertySet.RelatingPropertyDefinition as IIfcPropertySet;
+                    if (properties != null)
+                    {
+                        foreach (var property in properties.HasProperties)
+                        {
+                            propertySet.Add(property.Name, property.NominalValue);
+                        }
+                    }
                 }
-                return spaceDictionary;
+                
             }
+            return spaceDictionary;
         }
 
         public void Run()
         {
             Model = IfcStore.Open(File);
+            var project = Model.Instances.FirstOrDefault<IIfcProject>();
+            GetIfcSpaces(project);
         }
     }
 }
