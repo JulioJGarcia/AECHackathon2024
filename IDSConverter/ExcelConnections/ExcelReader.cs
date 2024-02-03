@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IDSConverter.Items;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -48,6 +49,22 @@ namespace IDSConverter.ExcelConnections
                 if (excelData.IndexOf(row) == 0)
                 {
                     continue;
+                }
+
+                Area area = new Area()
+                {
+                    Abbreviation = row[AbbreviationColumn],
+                    Level1DesignationCode = row[Level1DesignationCodeColumn],
+                    Level1Designation = row[Level1DesignationColumn],
+                    Level2DesignationCode = row[Level2DesignationCodeColumn],
+                    Level2Designation = row[Level2DesignationColumn],
+                    Level3DesignationCode = row[Level3DesignationCodeColumn],
+                    Level3Designation = row[Level3DesignationColumn]
+                };
+
+                for(int i = 7; i < row.Count(); i++)
+                {
+
                 }
             }
         }

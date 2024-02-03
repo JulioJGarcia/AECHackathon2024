@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IDSConverter.Items
 {
-    public class Areas
+    public class Area
     {
         public string Abbreviation { get; set; }
 
