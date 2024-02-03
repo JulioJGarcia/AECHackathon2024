@@ -105,50 +105,50 @@ public class Value
     public SimpleValue SimpleValue { get; set; }
 }
 
-class Program
-{
-    static void Main()
-    {
-        IDS idsData = new IDS
-        {
-            Xmlns = "http://standards.buildingsmart.org/IDS",
-            XmlnsXs = "http://www.w3.org/2001/XMLSchema",
-            XmlnsXsi = "http://www.w3.org/2001/XMLSchema-instance",
-            XsiSchemaLocation = "http://standards.buildingsmart.org/IDS ids.xsd",
-            Info = new Info
-            {
-                Title = "buildingSMART Sample IDS",
-                Copyright = "buildingSMART",
-                Version = "1.0.0",
-                Description = "These are example specifications for those learning how to use IDS",
-                Author = "foo@bar.com",
-                Date = "2022-01-01",
-                Purpose = "Contractual requirements"
-            },
-            Specifications = new Specifications
-            {
-                Specification = new List<Specification>
-                {
-                    // Add specifications here
-                }
-            }
-        };
+//class Program
+//{
+//    static void Main()
+//    {
+//        IDS idsData = new IDS
+//        {
+//            Xmlns = "http://standards.buildingsmart.org/IDS",
+//            XmlnsXs = "http://www.w3.org/2001/XMLSchema",
+//            XmlnsXsi = "http://www.w3.org/2001/XMLSchema-instance",
+//            XsiSchemaLocation = "http://standards.buildingsmart.org/IDS ids.xsd",
+//            Info = new Info
+//            {
+//                Title = "buildingSMART Sample IDS",
+//                Copyright = "buildingSMART",
+//                Version = "1.0.0",
+//                Description = "These are example specifications for those learning how to use IDS",
+//                Author = "foo@bar.com",
+//                Date = "2022-01-01",
+//                Purpose = "Contractual requirements"
+//            },
+//            Specifications = new Specifications
+//            {
+//                Specification = new List<Specification>
+//                {
+//                    // Add specifications here
+//                }
+//            }
+//        };
 
-        // Serialize the IDS instance to XML
-        XmlSerializer serializer = new XmlSerializer(typeof(IDS));
-        using (TextWriter writer = new StreamWriter("output.xml"))
-        {
-            serializer.Serialize(writer, idsData);
-        }
+//        // Serialize the IDS instance to XML
+//        XmlSerializer serializer = new XmlSerializer(typeof(IDS));
+//        using (TextWriter writer = new StreamWriter("output.xml"))
+//        {
+//            serializer.Serialize(writer, idsData);
+//        }
 
-        // Deserialize the XML back to IDS instance
-        using (TextReader reader = new StreamReader("output.xml"))
-        {
-            IDS deserializedIdsData = (IDS)serializer.Deserialize(reader);
-            Console.WriteLine("Deserialized Data:");
-            Console.WriteLine($"Title: {deserializedIdsData.Info.Title}");
-            // Add more properties as needed
-        }
-    }
-}
+//        // Deserialize the XML back to IDS instance
+//        using (TextReader reader = new StreamReader("output.xml"))
+//        {
+//            IDS deserializedIdsData = (IDS)serializer.Deserialize(reader);
+//            Console.WriteLine("Deserialized Data:");
+//            Console.WriteLine($"Title: {deserializedIdsData.Info.Title}");
+//            // Add more properties as needed
+//        }
+//    }
+//}
 

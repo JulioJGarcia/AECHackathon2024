@@ -1,0 +1,14 @@
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\obj\Debug\IDSConverter.csproj.AssemblyReference.cache
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\obj\Debug\IDSConverter.csproj.CoreCompileInputs.cache
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\bin\Debug\IDSConverter.exe.config
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\bin\Debug\IDSConverter.exe
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\bin\Debug\IDSConverter.pdb
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\bin\Debug\ExcelDataReader.DataSet.dll
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\bin\Debug\ExcelDataReader.dll
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\bin\Debug\ExcelDataReader.pdb
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\bin\Debug\ExcelDataReader.xml
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\bin\Debug\ExcelDataReader.DataSet.pdb
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\bin\Debug\ExcelDataReader.DataSet.xml
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\obj\Debug\IDSConverter.csproj.CopyComplete
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\obj\Debug\IDSConverter.exe
+C:\Users\modelical\source\repos\xlsx-converter\IDSConverter\obj\Debug\IDSConverter.pdb
