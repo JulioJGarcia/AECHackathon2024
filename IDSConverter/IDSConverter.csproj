@@ -114,6 +114,7 @@
     <Compile Include="DataStructure\DataStructure.cs" />
     <Compile Include="ExcelConnections\ExcelConnection.cs" />
     <Compile Include="ExcelConnections\ExcelReader.cs" />
+    <Compile Include="IfcConnection\IfcReader.cs" />
     <Compile Include="Items\Areas.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using IDSConverter.ExcelConnections;
 using Microsoft.CSharp.RuntimeBinder;
+using IDSConverter.IfcConnection;
 
 namespace IDSConverter
 {
@@ -41,7 +42,7 @@ namespace IDSConverter
 
         private static void RunIfc(string ifcFile)
         {
-
+            IfcReader ifcReader = new IfcConnection.IfcReader(ifcFile);
         }
 
         private static void RunExcel(string excelFile)
