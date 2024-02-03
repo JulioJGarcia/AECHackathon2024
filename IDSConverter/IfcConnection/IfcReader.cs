@@ -24,7 +24,7 @@ namespace IDSConverter.IfcConnection
             File = file;
         }
 
-        private IDS ConvertToXmlFormat(List<Dictionary<string, string>> ifcSpaceData)
+        private IDS ConvertToXmlFormat(List<Dictionary<string, string>> spaceData)
         {
             IDS specs = new IDS()
             {
@@ -35,10 +35,15 @@ namespace IDSConverter.IfcConnection
                 Specifications = new List<Specification>()
             };
 
-            foreach (Dictionary<string, string> attribute in ifcSpaceData)
+            foreach (Dictionary<string, string> space in spaceData)
             {
-                string areaCode = attribute["Name"],
-                    areaName = attribute["Number"];
+                if (spaceData.IndexOf(space) == 0)
+                {
+                    continue;
+                }
+
+                string areaCode = space["Number"],
+                    areaName = space["Name"];
 
                 Specification spec = new Specification()
                 {
@@ -48,8 +53,8 @@ namespace IDSConverter.IfcConnection
                     Instructions = "...",
                     MinOccurs = "0",
                     MaxOccurs = "unbounded",
-                    Applicability = new List<Entity>(),
-                    Requirements = new List<Attribute>()
+                    Applicability = new List<Facet>(),
+                    Requirements = new List<Facet>()
 
                 };
 
@@ -66,8 +71,8 @@ namespace IDSConverter.IfcConnection
 
                 spec.Applicability.Add(entityType);
 
-                string keyAttr = ifcSpaceData.First()["Name"];
-                string keyValueAttr = attribute["Number"];
+                string keyAttr = spaceData.First()["Number"];
+                string keyValueAttr = space["Number"];
 
                 Attribute attrApplicability = new Attribute()
                 {
@@ -82,14 +87,14 @@ namespace IDSConverter.IfcConnection
                     }
                 };
 
-                //spec.Applicability.Add(attrApplicability);
+                spec.Applicability.Add(attrApplicability);
 
-                for (int i = 7; i < attribute.Keys.Count(); i++)
+                for (int i = 7; i < space.Keys.Count(); i++)
                 {
-                    List<string> keys = attribute.Keys.ToList();
+                    List<string> keys = space.Keys.ToList();
                     string key = keys[i];
 
-                    string name = ifcSpaceData.First()[key], value = attribute[key];
+                    string name = spaceData.First()[key], value = space[key];
 
                     Attribute attr = new Attribute()
                     {
@@ -118,39 +123,36 @@ namespace IDSConverter.IfcConnection
         {
             var spaces = project.Model.Instances.OfType<IIfcSpace>().ToList();
             Dictionary<string, string> spaceDictionary = new Dictionary<string, string>();
-            Dictionary<string, string> propertySet = new Dictionary<string, string>();
+            List<Dictionary<string, string>> ifcSpaceData = new List<Dictionary<string, string>>();
 
             foreach (var space in spaces)
             {
-                spaceDictionary.Add("Name",space.LongName);
+                spaceDictionary.Add("Name", space.LongName);
                 spaceDictionary.Add("Number", space.Name);
 
                 //get the properties of a default property set of the space and assign it to propertySet
                 var defaultPropertySet = space.IsDefinedBy.OfType<IIfcRelDefinesByProperties>().FirstOrDefault();
                 if (defaultPropertySet != null)
                 {
-                    var properties = defaultPropertySet.RelatingPropertyDefinition as IIfcPropertySet;
-                    if (properties != null)
-                    {
-                        foreach (var property in properties.HasProperties)
-                        {
-                            spaceDictionary.Add(property.Name, property.NominalValue);
-                        }
-                    }
+                    var properties = space.IsDefinedBy
+                        .Where(r => r.RelatingPropertyDefinition is IIfcPropertySet)
+                        .SelectMany(r => ((IIfcPropertySet)r.RelatingPropertyDefinition).HasProperties)
+                        .OfType<IIfcPropertySingleValue>();
+                    foreach (var property in properties)
+                        spaceDictionary.Add(property.Name,property.NominalValue.ToString());
                 }
-                
+                ifcSpaceData.Add(spaceDictionary);
             }
-            return spaceDictionary;
+            return ifcSpaceData;
         }
 
-        public void Run()
+        public IDS Run()
         {
             Model = IfcStore.Open(File);
             var project = Model.Instances.FirstOrDefault<IIfcProject>();
-            GetIfcSpaces(project);
+            IDS ids = ConvertToXmlFormat(GetIfcSpaces(project));
 
-            var ifcSpaceData = ReadData();
-            IDS ids = ConvertToXmlFormat(ifcSpaceData);
+            return ids;
         }
     }
 }
