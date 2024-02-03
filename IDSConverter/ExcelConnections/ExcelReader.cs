@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.Isam.Esent.Interop.EnumeratedColumn;
+using System.Xml.Linq;
 
 namespace IDSConverter.ExcelConnections
 {
@@ -46,9 +48,9 @@ namespace IDSConverter.ExcelConnections
             IDS specs = new IDS()
             {
                 Xmlns = "http://standards.buildingsmart.org/IDS",
-                XmlnsXs = "http://www.w3.org/2001/XMLSchema",
-                XmlnsXsi = "http://www.w3.org/2001/XMLSchema-instance",
-                XsiSchemaLocation = "http://standards.buildingsmart.org/IDS ids.xsd",
+                //XmlnsXs = "http://www.w3.org/2001/XMLSchema",
+                //XmlnsXsi = "http://www.w3.org/2001/XMLSchema-instance",
+                //XsiSchemaLocation = "http://standards.buildingsmart.org/IDS ids.xsd",
                 Specifications = new List<Specification>()
             };
 
@@ -59,15 +61,32 @@ namespace IDSConverter.ExcelConnections
                     continue;
                 }
 
-                Area area = new Area()
+                string areaName = row[Level3DesignationColumn];
+
+                Specification spec = new Specification()
                 {
-                    Abbreviation = row[AbbreviationColumn],
-                    Level1DesignationCode = row[Level1DesignationCodeColumn],
-                    Level1Designation = row[Level1DesignationColumn],
-                    Level2DesignationCode = row[Level2DesignationCodeColumn],
-                    Level2Designation = row[Level2DesignationColumn],
-                    Level3DesignationCode = row[Level3DesignationCodeColumn],
-                    Level3Designation = row[Level3DesignationColumn]
+                    Name = areaName,
+                    IfcVersion = "IFC4",
+                    Description = "Areas ...",
+                    Instructions = "...",
+                    MinOccurs = "0",
+                    MaxOccurs = "unbounded",
+                    Applicability = new Applicability()
+                    {
+                        Entity = new Entity()
+                        {
+                            Name = new Name()
+                            {
+                                SimpleValue = new SimpleValue()
+                                {
+                                    Value = "IFCSPACE"
+                                }
+                            }
+                        }
+                    },
+
+                    Requirements = new List<Attribute>()
+
                 };
 
                 for (int i = 7; i < row.Keys.Count(); i++)
@@ -77,49 +96,24 @@ namespace IDSConverter.ExcelConnections
 
                     string name = excelData.First()[key], value = row[key];
 
-                    string areaName = row[Level3DesignationColumn];
-
-                    Specification spec = new Specification()
+                    Attribute attr = new Attribute()
                     {
-                        Name = areaName,
-                        IfcVersion = "IFC4",
-                        Description = "Areas ...",
-                        Instructions = "...",
-                        MinOccurs = "0",
-                        MaxOccurs = "unbounded",
-                        Applicability = new Applicability()
+                        Instructions = $"For '{areaName}' areas the value of field '{name}' must match '{value}'",
+                        Name = new Name()
                         {
-                            Entity = new Entity()
-                            {
-                                Name = new Name()
-                                {
-                                    SimpleValue = new SimpleValue()
-                                    {
-                                        Value = "IFCPROJECT"
-                                    }
-                                }
-                            }
+                            SimpleValue = new SimpleValue() { Value = name }
                         },
-                        Requirements = new Requirement()
-                        {
-                            Attribute = new Attribute()
-                            {
-                                Instructions = $"For '{areaName}' areas the value of field '{name}' must match '{value}'",
-                                Name = new Name()
-                                {
-                                    SimpleValue = new SimpleValue() { Value = name }
-                                },
 
-                                Value = new Value()
-                                {
-                                    SimpleValue = new SimpleValue() { Value = value }
-                                }
-                            }
+                        Value = new Value()
+                        {
+                            SimpleValue = new SimpleValue() { Value = value }
                         }
                     };
 
-                    specs.Specifications.Add(spec);
+                    spec.Requirements.Add(attr);
                 };
+
+                specs.Specifications.Add(spec);
             }
 
             return specs;
