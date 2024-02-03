@@ -60,19 +60,26 @@ public class Specification
     [XmlAttribute("maxOccurs")]
     public string MaxOccurs { get; set; }
 
-    public Applicability Applicability { get; set; }
+    public List<Entity> Applicability { get; set; }
 
     public List<Attribute> Requirements { get; set; }
 }
 
-public class Applicability
-{
-    public Entity Entity { get; set; }
-}
+//public class Applicability
+//{
+//    public Entity Entity { get; set; }
+//}
 
-public class Entity
+[XmlInclude(typeof(Entity))]
+[XmlInclude(typeof(Attribute))]
+public class Facet
 {
     public Name Name { get; set; }
+}
+
+
+public class Entity : Facet
+{
 }
 
 //public class Requirement
@@ -90,12 +97,10 @@ public class SimpleValue
     public string Value { get; set; }
 }
 
-public class Attribute
+public class Attribute : Facet
 {
     [XmlAttribute("instructions")]
     public string Instructions { get; set; }
-
-    public Name Name { get; set; }
 
     public Value Value { get; set; }
 }

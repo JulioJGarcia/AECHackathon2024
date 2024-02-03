@@ -61,33 +61,52 @@ namespace IDSConverter.ExcelConnections
                     continue;
                 }
 
-                string areaName = row[Level3DesignationColumn];
+                string areaCode = row[Level3DesignationCodeColumn],
+                    areaName = row[Level3DesignationColumn];
 
                 Specification spec = new Specification()
                 {
-                    Name = areaName,
+                    Name = $"{areaCode} {areaName}",
                     IfcVersion = "IFC4",
                     Description = "Areas ...",
                     Instructions = "...",
                     MinOccurs = "0",
                     MaxOccurs = "unbounded",
-                    Applicability = new Applicability()
-                    {
-                        Entity = new Entity()
-                        {
-                            Name = new Name()
-                            {
-                                SimpleValue = new SimpleValue()
-                                {
-                                    Value = "IFCSPACE"
-                                }
-                            }
-                        }
-                    },
-
+                    Applicability = new List<Entity>(),
                     Requirements = new List<Attribute>()
 
                 };
+
+                Entity entityType = new Entity()
+                {
+                    Name = new Name()
+                    {
+                        SimpleValue = new SimpleValue()
+                        {
+                            Value = "IFCSPACE"
+                        }
+                    }
+                };
+
+                spec.Applicability.Add(entityType);
+
+                string keyAttr = excelData.First()[Level3DesignationCodeColumn];
+                string keyValueAttr = row[Level3DesignationCodeColumn];
+
+                Attribute attrApplicability = new Attribute()
+                {
+                    Name = new Name()
+                    {
+                        SimpleValue = new SimpleValue() { Value = keyAttr }
+                    },
+
+                    Value = new Value()
+                    {
+                        SimpleValue = new SimpleValue() { Value = keyValueAttr }
+                    }
+                };
+
+                //spec.Applicability.Add(attrApplicability);
 
                 for (int i = 7; i < row.Keys.Count(); i++)
                 {
