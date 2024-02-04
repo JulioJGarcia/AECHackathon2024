@@ -16,7 +16,9 @@ const parseXMLToIDS = (xmlData: string): IDS | null => {
 const transformXMLToIDS = (xmlObject: any): IDS => {
   const { ids } = xmlObject;
   const { info, specifications } = ids;
-
+  // specifications:{
+  //   //   specification: Array.isArray(specifications) ? transformSpecifications(specifications) : []
+  //    },
   return {
     ids:{
       info: {
@@ -26,60 +28,61 @@ const transformXMLToIDS = (xmlObject: any): IDS => {
         description: info.description,
         milestone: info.milestone,
       },
-      specifications: Array.isArray(specifications) ? transformSpecifications(specifications) : [],
-
+      specifications:[],
     }
 
   };
 };
 
-const transformSpecifications = (specifications: any[]): Specification[] => {
-  return specifications.map((spec) => {
-    return {specification:{
-      name: spec.$.name,
-      ifcVersion: spec.$.ifcVersion,
-      description: spec.$.description,
-      applicability: {
-        entity: {
-          name: {
-            simpleValue: spec.applicability.entity.name.simpleValue,
-          },
-        },
-      },
-      requirements: transformRequirements(spec.requirements.property),
-    }};
-  });
+// const transformSpecifications = (specifications: any[]): Specification[] => {
+//   return specifications.map((spec) => {
+//     return {
+//       name: spec.$.name,
+//       ifcVersion: spec.$.ifcVersion,
+//       description: spec.$.description,
+//       applicability: {
+//         entity: {
+//           name: {
+//             simpleValue: spec.applicability.entity.name.simpleValue,
+//           },
+//         },
+//       },
+//       requirements:{      
+//         property: {transformRequirements(spec.requirements.property)}, 
+//       },
+//     };
+//   });
 
-};
+// };
 
-const transformRequirements = (requirements: any[]): Requirement[] => {
-  return requirements.map((req) => {
-    const { property } = req;
-    return {
-      property: {
-        datatype: property.$.datatype,
-        minOccurs: property.$.minOccurs,
-        maxOccurs: property.$.maxOccurs,
-        propertySet: {
-          restriction: {
-            base: property.propertySet.restriction.base,
-            pattern: property.propertySet.restriction.pattern,
-          },
-        },
-        name: {
-          simpleValue: property.name.simpleValue,
-        },
-        value: property.value
-          ? {
-              restriction: {
-                base: property.value.restriction.base,
-                enumeration: property.value.restriction.enumeration.split(' '),
-              },
-            }
-          : undefined,
-      },
-    };
-  });
-};
+// const transformRequirements = (requirements: any[]): Requirement[] => {
+//   return requirements.map((req) => {
+//     const { property } = req;
+//     return {
+
+//         datatype: property.$.datatype,
+//         minOccurs: property.$.minOccurs,
+//         maxOccurs: property.$.maxOccurs,
+//         propertySet: {
+//           restriction: {
+//             base: property.propertySet.restriction.base,
+//             pattern: property.propertySet.restriction.pattern,
+//           },
+//         },
+//         name: {
+//           simpleValue: property.name.simpleValue,
+//         },
+//         value: property.value
+//           ? {
+//               restriction: {
+//                 base: property.value.restriction.base,
+//                 enumeration: property.value.restriction.enumeration.split(' '),
+//               },
+//             }
+//           : undefined,
+     
+//     };
+//   });
+// };
 
 export { parseXMLToIDS };

@@ -24,30 +24,45 @@ interface IDS {
           };
         };
       };
-      requirements: Requirement[];
+      requirements: {
+        property: Requirement[];
+      };
   }}
   
   interface Requirement {
-    property: {
+    $?:{
       datatype: string;
       minOccurs: string;
       maxOccurs: string;
+    }
       propertySet: {
-        restriction: {
-          base: string;
-          pattern: string;
-        };
+   
+          "xs:restriction"?: {
+            $?: {
+              base: string;
+            };
+          "xs:pattern"?: {
+            $?: {
+              value: string;
+            };
+          };
+  
       };
+    };
       name: {
         simpleValue: string;
       };
       value?: {
-        restriction: {
+        "xs:restriction"?: {
           base: string;
-          enumeration: string[];
+          'xs:enumeration'?: enumValue[];
         };
       };
+  };
+  interface enumValue{
+    $?: {
+      value: string;
     };
-  }
+  };
   
   export type { IDS,IdsInfo, Specification, Requirement };

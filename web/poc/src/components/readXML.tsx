@@ -43,10 +43,6 @@ const XmlParserComponent: React.FC = () => {
     <div>
       <input type="file" accept=".xml" onChange={handleFileChange} />
       <div>
-        <h2>XML Content</h2>
-        <pre>{xmlContent}</pre>
-      </div>
-      <div>
         <h2>Parsed Data</h2>
         <IDSViewer parsedData={parsedData}/>
         
