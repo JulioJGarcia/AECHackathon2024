@@ -89,7 +89,7 @@ namespace IDSConverter.IfcConnection
 
                 spec.Applicability.Add(attrApplicability);
 
-                for (int i = 7; i < space.Keys.Count(); i++)
+                for (int i = 0; i < space.Keys.Count(); i++)
                 {
                     List<string> keys = space.Keys.ToList();
                     string key = keys[i];
@@ -98,10 +98,10 @@ namespace IDSConverter.IfcConnection
 
                     Attribute attr = new Attribute()
                     {
-                        Instructions = $"For '{areaName}' areas the value of field '{name}' must match '{value}'",
+                        Instructions = $"For '{areaName}' areas the value of field '{key}' must match '{value}'",
                         Name = new Name()
                         {
-                            SimpleValue = new SimpleValue() { Value = name }
+                            SimpleValue = new SimpleValue() { Value = key }
                         },
 
                         Value = new Value()
@@ -122,24 +122,36 @@ namespace IDSConverter.IfcConnection
         private List<Dictionary<string, string>> GetIfcSpaces(IIfcProject project)
         {
             var spaces = project.Model.Instances.OfType<IIfcSpace>().ToList();
-            Dictionary<string, string> spaceDictionary = new Dictionary<string, string>();
             List<Dictionary<string, string>> ifcSpaceData = new List<Dictionary<string, string>>();
 
             foreach (var space in spaces)
             {
+                Dictionary<string, string> spaceDictionary = new Dictionary<string, string>();
+
                 spaceDictionary.Add("Name", space.LongName);
                 spaceDictionary.Add("Number", space.Name);
 
                 //get the properties of a default property set of the space and assign it to propertySet
                 var defaultPropertySet = space.IsDefinedBy.OfType<IIfcRelDefinesByProperties>().FirstOrDefault();
-                if (defaultPropertySet != null)
+                if (defaultPropertySet == null)
                 {
-                    var properties = space.IsDefinedBy
-                        .Where(r => r.RelatingPropertyDefinition is IIfcPropertySet)
-                        .SelectMany(r => ((IIfcPropertySet)r.RelatingPropertyDefinition).HasProperties)
-                        .OfType<IIfcPropertySingleValue>();
-                    foreach (var property in properties)
-                        spaceDictionary.Add(property.Name,property.NominalValue.ToString());
+                    continue;
+                }
+                var properties = space.IsDefinedBy
+                    .Where(r => r.RelatingPropertyDefinition is IIfcPropertySet)
+                    .SelectMany(r => ((IIfcPropertySet)r.RelatingPropertyDefinition).HasProperties)
+                    .OfType<IIfcPropertySingleValue>();
+                foreach (var property in properties)
+                {
+                    if (property.NominalValue == null)
+                    {
+                        continue;
+                    }
+                    if (spaceDictionary.ContainsKey(property.Name))
+                    {
+                        continue;
+                    }
+                    spaceDictionary.Add(property.Name, property.NominalValue.ToString());
                 }
                 ifcSpaceData.Add(spaceDictionary);
             }
