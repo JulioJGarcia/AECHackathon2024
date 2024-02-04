@@ -24,10 +24,10 @@
         </Facet>
       </Applicability>
       <Requirements>
-        <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'CENTRAL WAITING' must match 'WAITING / ACTIVITY AREA'">
+        <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Name' must match 'WAITING / ACTIVITY AREA'">
           <Name>
             <SimpleValue>
-              <Value>CENTRAL WAITING</Value>
+              <Value>Name</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -39,7 +39,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Number' must match '1DC1'">
           <Name>
             <SimpleValue>
-              <Value>1AC1</Value>
+              <Value>Number</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -51,7 +51,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Reference' must match ''">
           <Name>
             <SimpleValue>
-              <Value />
+              <Value>Reference</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -63,7 +63,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'OmniClass Table 13 Category' must match '13-51 31 11: Waiting Room'">
           <Name>
             <SimpleValue>
-              <Value>13-51 31 11: Waiting Room</Value>
+              <Value>OmniClass Table 13 Category</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -75,7 +75,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Level' must match 'First Floor'">
           <Name>
             <SimpleValue>
-              <Value>First Floor</Value>
+              <Value>Level</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -87,7 +87,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Upper Limit' must match 'Second Floor'">
           <Name>
             <SimpleValue>
-              <Value>Second Floor</Value>
+              <Value>Upper Limit</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -99,7 +99,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Limit Offset' must match '0'">
           <Name>
             <SimpleValue>
-              <Value>0</Value>
+              <Value>Limit Offset</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -111,7 +111,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Base Offset' must match '0'">
           <Name>
             <SimpleValue>
-              <Value>0</Value>
+              <Value>Base Offset</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -123,7 +123,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Area' must match '182.28019787737961'">
           <Name>
             <SimpleValue>
-              <Value>139.75467094424121</Value>
+              <Value>Area</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -135,7 +135,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Perimeter' must match '80.655992555708508'">
           <Name>
             <SimpleValue>
-              <Value>75.320922728807417</Value>
+              <Value>Perimeter</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -147,7 +147,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Unbounded Height' must match '4.57000000000445'">
           <Name>
             <SimpleValue>
-              <Value>4.57000000000445</Value>
+              <Value>Unbounded Height</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -159,7 +159,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Volume' must match '814.45155658518433'">
           <Name>
             <SimpleValue>
-              <Value>625.1590784997594</Value>
+              <Value>Volume</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -171,7 +171,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Phase' must match 'New Construction'">
           <Name>
             <SimpleValue>
-              <Value>New Construction</Value>
+              <Value>Phase</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -183,7 +183,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Category Description' must match 'Waiting Room'">
           <Name>
             <SimpleValue>
-              <Value>Waiting Room</Value>
+              <Value>Category Description</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -195,7 +195,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'Category Code' must match '13-51 31 11'">
           <Name>
             <SimpleValue>
-              <Value>13-51 31 11</Value>
+              <Value>Category Code</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -207,7 +207,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'CirculationZoneName' must match 'Circulation Zone 1D'">
           <Name>
             <SimpleValue>
-              <Value>Circulation Zone 1A</Value>
+              <Value>CirculationZoneName</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -219,7 +219,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'FireAlarmZoneName' must match 'Fire Alarm Zone 1D'">
           <Name>
             <SimpleValue>
-              <Value>Fire Alarm Zone 1A</Value>
+              <Value>FireAlarmZoneName</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -231,7 +231,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'HistoricPreservationZoneName' must match 'Historic Preservation Zone 1D'">
           <Name>
             <SimpleValue>
-              <Value>Historic Preservation Zone 1A</Value>
+              <Value>HistoricPreservationZoneName</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -243,7 +243,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'LightingZoneName' must match 'Lighting Zone 1D'">
           <Name>
             <SimpleValue>
-              <Value>Lighting Zone 1A</Value>
+              <Value>LightingZoneName</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -255,7 +255,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'OccupancyZoneName' must match 'Occupancy Zone 1D'">
           <Name>
             <SimpleValue>
-              <Value>Occupancy Zone 1A</Value>
+              <Value>OccupancyZoneName</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -267,7 +267,7 @@
         <Attribute instructions="For 'WAITING / ACTIVITY AREA' areas the value of field 'VentilationZoneName' must match 'Ventilation Zone 1D'">
           <Name>
             <SimpleValue>
-              <Value>Ventilation Zone 1A</Value>
+              <Value>VentilationZoneName</Value>
             </SimpleValue>
           </Name>
           <Value>
@@ -316,7 +316,7 @@
         <Attribute instructions="For 'ROOF' areas the value of field 'Name' must match 'ROOF'">
           <Name>
             <SimpleValue>
-              <Value>CENTRAL WAITING</Value>
+              <Value>Name</Value>
             </SimpleValue>
           </Name>
           <Value>
